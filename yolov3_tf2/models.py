@@ -163,6 +163,7 @@ def yolo_boxes(pred, anchors, classes):
     grid = tf.meshgrid(tf.range(grid_size[1]), tf.range(grid_size[0]))
     grid = tf.expand_dims(tf.stack(grid, axis=-1), axis=2)  # [gx, gy, 1, 2]
 
+    # ???
     box_xy = (box_xy + tf.cast(grid, tf.float32)) / \
         tf.cast(grid_size, tf.float32)
     box_wh = tf.exp(box_wh) * anchors
@@ -247,12 +248,16 @@ def YoloV3Tiny(size=None, channels=3, anchors=yolo_tiny_anchors,
     if training:
         return Model(inputs, (output_0, output_1), name='yolov3')
 
-    boxes_0 = Lambda(lambda x: yolo_boxes(x, anchors[masks[0]], classes),
-                     name='yolo_boxes_0')(output_0)
-    boxes_1 = Lambda(lambda x: yolo_boxes(x, anchors[masks[1]], classes),
-                     name='yolo_boxes_1')(output_1)
-    outputs = Lambda(lambda x: yolo_nms(x, anchors, masks, classes),
-                     name='yolo_nms')((boxes_0[:3], boxes_1[:3]))
+    boxes_0 = yolo_boxes(output_0, anchors[masks[0]], classes)
+    boxes_1 = yolo_boxes(output_1, anchors[masks[1]], classes)
+    outputs = yolo_nms((boxes_0[:3], boxes_1[:3]), anchors, masks, classes)
+
+    # boxes_0 = Lambda(lambda x: yolo_boxes(x, anchors[masks[0]], classes),
+    #                  name='yolo_boxes_0')(output_0)
+    # boxes_1 = Lambda(lambda x: yolo_boxes(x, anchors[masks[1]], classes),
+    #                  name='yolo_boxes_1')(output_1)
+    # outputs = Lambda(lambda x: yolo_nms(x, anchors, masks, classes),
+    #                  name='yolo_nms')((boxes_0[:3], boxes_1[:3]))
     return Model(inputs, outputs, name='yolov3_tiny')
 
 
@@ -279,6 +284,7 @@ def YoloLoss(anchors, classes=80, ignore_thresh=0.5):
         grid_size = tf.shape(y_true)[1]
         grid = tf.meshgrid(tf.range(grid_size), tf.range(grid_size))
         grid = tf.expand_dims(tf.stack(grid, axis=-1), axis=2)
+        # ???
         true_xy = true_xy * tf.cast(grid_size, tf.float32) - \
             tf.cast(grid, tf.float32)
         true_wh = tf.math.log(true_wh / anchors)

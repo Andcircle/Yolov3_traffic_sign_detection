@@ -4,6 +4,11 @@ from absl.flags import FLAGS
 import cv2
 import numpy as np
 import tensorflow as tf
+
+import sys
+import os
+sys.path.append(os.getcwd())
+
 from yolov3_tf2.models import (
     YoloV3, YoloV3Tiny
 )
