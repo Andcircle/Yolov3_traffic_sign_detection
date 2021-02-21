@@ -1,6 +1,6 @@
 # YoloV3 Implemented in TensorFlow 2.0
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Andcircle/Yolov3_traffic_sign_detection/blob/master/colab_gpu.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Andcircle/Yolov3_traffic_sign_detection/blob/li_traffic_sign/colab_gpu.ipynb)
 
 This repo provides a clean implementation of YoloV3 in TensorFlow 2.0 using all the best practices.
 
