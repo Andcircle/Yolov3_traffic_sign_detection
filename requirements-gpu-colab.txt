@@ -1,0 +1,9 @@
+# colab only have cuda 10.1 which only support tf upto 2.3.0
+tensorflow==2.3.0
+opencv-python==4.1.1.26
+lxml
+tqdm
+matplotlib>=2.2.3
+numpy
+PyYAML
+-e .
